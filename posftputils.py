@@ -4,7 +4,6 @@ import os
 
 from Entity.GetBranch import GetBranch
 
-
 def ftp_upload():
   host = '192.168.72.220'
   username = "sy"
@@ -21,7 +20,6 @@ def ftp_upload():
       local_sqllite_db = sqllite_db + row[0] + '.db'
       if os.path.exists(local_sqllite_db):
         try:
-
           f = ftplib.FTP()  # 实例化FTP对象
           f.connect(host)
           f.login(username, password)  # 登录
