@@ -36,6 +36,7 @@ def sync_all():
     activebranch=GetBranch()
     branches=activebranch.get_active_branch()
     for row in branches:
+        print row[0],row[1]
         branch = Branch(row[0])
         branchemployee = BranchEmployee(row[0])
         product = Product(row[0])
