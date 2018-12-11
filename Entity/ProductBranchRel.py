@@ -12,13 +12,14 @@ class ProductBranchRel(JsEntity):
             stamps = self.get_local_time_stamp()
             print 'sync_productbranchrel==>', stamps
             needinsert = self.get_remote_table_result_by_branch_timestamp(stamps)
-            print needinsert
+            # print needinsert
             self.insert_local_product_branch_rel(needinsert)
         except BaseException as e:
             print ("Sync_product error", e)
 
     def insert_local_product_branch_rel(self, res):
         print "--insert_local_product_barcode"
+        i=0
         for row in res:
             row_17=self.IsNone(row[17])
             row_10=self.IsNone(row[10])
@@ -56,6 +57,7 @@ class ProductBranchRel(JsEntity):
                              row_8, row_5,row_6, row_2, row_3, row_9, row_7, row[23],
                              row[21], row[22], row[25]
                              )
-            print sql
-
+            # print sql
             self.insert_local_table_by_sql(sql)
+            self.print_need_insert(i,len(res))
+            i+=1

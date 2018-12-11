@@ -3,21 +3,22 @@ from Entity.jsEntity import JsEntity
 
 class Product(JsEntity):
 
-    def __init__(self):
-        JsEntity.__init__(self, "Product")
+    def __init__(self,branchcode):
+        JsEntity.__init__(self, "Product",branchcode)
 
     def sync_product(self):
         try:
             stamps = self.get_local_time_stamp()
             print 'producttamps==>', stamps
             needinsert = self.get_remote_table_result_by_timestamp(stamps)
-            print needinsert
+            # print needinsert
             self.insert_local_product(needinsert)
         except BaseException as e:
             print ("Sync_product error", e)
 
     def insert_local_product(self, res):
         print "--insert_local_product"
+        i=0
         for row in res:
             row_12=self.IsNone(row[12])
             row_14=self.IsNone(row[14])
@@ -74,5 +75,7 @@ class Product(JsEntity):
                              row[10], row[11], row_12, row[13], row_14, row_15, row_16, row_17, row_18, row_19,
                              row_20, row_21, row_22, row_23, row[24], row[25], row[26], row[27], row[28], row[65],
                              )
-            print sql
+            # print sql
             self.insert_local_table_by_sql(sql)
+            self.print_need_insert(i,len(res))
+            i+=1

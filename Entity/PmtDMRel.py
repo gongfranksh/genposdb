@@ -12,7 +12,7 @@ class PMTDMREL(JsEntity):
             stamps = self.get_local_time_stamp()
             print 'sync_pmtdmdel==>', stamps
             needinsert = self.get_need_update_record(stamps)
-            print needinsert
+            # print needinsert
             self.insert_local_pmt_dm_rel(needinsert)
         except BaseException as e:
             print ("sync_pmtdmdel error", e)
@@ -28,7 +28,7 @@ class PMTDMREL(JsEntity):
         and   BraId = '{1}' 
         ORDER BY CONVERT (int,d.timestamp) 
         """
-        sql=sql.format(timestamp,self.branch)
+        sql=sql.format(timestamp,self.branch_code)
         print sql
         return self.get_remote_result_by_sql(sql)
 
@@ -36,6 +36,7 @@ class PMTDMREL(JsEntity):
 
     def insert_local_pmt_dm_rel(self, res):
         print "--insert_local_pmt_dm_rel"
+        i=0
         for row in res:
             row_4=self.IsNone(row[4])
             row_5=self.IsNone(row[5])
@@ -65,5 +66,7 @@ class PMTDMREL(JsEntity):
                            row[3], row[4], row[5],
                            row[6], row[7], row[8],
                            )
-            print sql
+            # print sql
             self.insert_local_table_by_sql(sql)
+            self.print_need_insert(i,len(res))
+            i+=1

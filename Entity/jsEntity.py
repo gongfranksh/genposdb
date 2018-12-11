@@ -9,33 +9,35 @@ sys.setdefaultencoding("utf-8")
 class JsEntity(object):
 
     def __CONNECT_INFO(self):
-        self.sqllite_db='jsPos01002.db'
+        self.sqllite_db='jsPos'+self.branch_code+'.db'
         self.js_host = "192.168.72.5"
         self.js_user = "syread"
         self.js_pwd = "buynow"
         self.js_db = "headquarters"
         self.__Connect_sqllite()
 
-    def __init__(self, table):
+    def __init__(self, table,branchcode):
         self.remote_table = table
         self.local_table = table
+        self.branch_code =branchcode
         self.__CONNECT_INFO()
 
-    def init_table_diff(self, remotetable,localtable):
+    def init_table_diff(self, remotetable,localtable,branchcode):
         self.local_table = localtable
         self.remote_table = remotetable
+        self.branch_code =branchcode
         self.__CONNECT_INFO()
 
     def init_by_branch(self, table,branchcode):
         self.remote_table = table
         self.local_table = table
-        self.branch=branchcode
+        self.branch_code =branchcode
         self.__CONNECT_INFO()
 
     def init_table_diff_by_branch(self, remotetable,localtable,branchcode):
         self.local_table = localtable
         self.remote_table = remotetable
-        self.branch=branchcode
+        self.branch_code = branchcode
         self.__CONNECT_INFO()
 
     def __IsNoneRow(self,row):
@@ -49,7 +51,6 @@ class JsEntity(object):
                 return 0
             else:
                 return row
-
 
     def __GetConnect_mssql(self):
         if not self.js_db:
@@ -118,7 +119,7 @@ class JsEntity(object):
         sql = """
         SELECT * FROM {0};
         """
-        sql=sql.format(self.remotetable)
+        sql=sql.format(self.remote_table)
         res = self.__MsSql_ExecQuery(sql)
         return res
 
@@ -136,7 +137,7 @@ class JsEntity(object):
         where CONVERT (int,timestamp) > {1} and braid='{2}' 
         order by timestamp ;
         """
-        sql=sql.format(self.remote_table,timestamp,self.branch)
+        sql=sql.format(self.remote_table,timestamp,self.branch_code)
         print sql
         res = self.__MsSql_ExecQuery(sql)
         return res
@@ -150,3 +151,6 @@ class JsEntity(object):
 
     def delete_local_table_by_sql(self,sql):
         self.__sqllite_exec_sql_no_result(sql)
+
+    def print_need_insert(self,current,total):
+        print ("%s: [%d/%d]" % (self.local_table,current, total))
