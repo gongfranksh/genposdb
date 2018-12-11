@@ -102,7 +102,7 @@ class JsEntity(object):
         SELECT max(TIME_STAMP)  FROM {0};
         """
         sql=sql.format(self.local_table)
-        print sql
+        # print sql
         res = self.__sqllite_exesql(sql)
         for row in res:
             return self.__IsNoneRow(row)

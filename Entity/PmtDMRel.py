@@ -29,7 +29,7 @@ class PMTDMREL(JsEntity):
         ORDER BY CONVERT (int,d.timestamp) 
         """
         sql=sql.format(timestamp,self.branch_code)
-        print sql
+        # print sql
         return self.get_remote_result_by_sql(sql)
 
 

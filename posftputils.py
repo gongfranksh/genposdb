@@ -26,8 +26,8 @@ def ftp_upload():
           # '''以二进制形式上传文件'''
           file_remote = '/posapp/'+row[0]+db_template
           file_local = local_sqllite_db
-          print file_remote
-          print file_local
+          # print file_remote
+          # print file_local
           bufsize = 1024  # 设置缓冲器大小
           fp = open(file_local, 'rb')
           f.storbinary('STOR ' + file_remote, fp, bufsize)
