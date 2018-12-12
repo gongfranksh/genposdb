@@ -19,9 +19,9 @@ class BranchEmployee(JsEntity):
 
     def insert_local_branch_employee(self,res):
         print "--insert_local_branch_employee"
+        i=0
         for row in res:
             #折扣率
-            i=0
             if row[14] is None:
                 discount=1
             else:
